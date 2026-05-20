@@ -32,8 +32,8 @@ return new class extends Migration
             });
         }
 
-        if (! Schema::hasTable('error_ignored')) {
-            Schema::create('error_ignored', function (Blueprint $table) {
+        if (! Schema::hasTable('error_ignoreds')) {
+            Schema::create('error_ignoreds', function (Blueprint $table) {
                 $table->id();
                 $table->string('pattern');
                 $table->timestamps();
@@ -58,7 +58,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('refused_contacts');
-        Schema::dropIfExists('error_ignored');
+        Schema::dropIfExists('error_ignoreds');
         Schema::dropIfExists('spam_guard_errors');
         Schema::dropIfExists('banned_ips');
     }
