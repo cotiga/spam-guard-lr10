@@ -1,0 +1,12 @@
+<?php
+
+namespace Cotiga\SpamGuard\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class BannedIp extends Model
+{
+    protected $table = 'banned_ips';
+
+    protected $fillable = ['ip'];
+}
