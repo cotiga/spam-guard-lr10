@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class BannedIp extends Model
 {
-    protected $table = 'banned_ips';
+    protected $table = 'spam_guard_banned_ips';
 
     protected $fillable = ['ip'];
 }

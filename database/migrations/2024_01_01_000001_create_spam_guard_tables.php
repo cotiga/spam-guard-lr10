@@ -8,8 +8,8 @@ return new class extends Migration
 {
     public function up(): void
     {
-        if (! Schema::hasTable('banned_ips')) {
-            Schema::create('banned_ips', function (Blueprint $table) {
+        if (! Schema::hasTable('spam_guard_banned_ips')) {
+            Schema::create('spam_guard_banned_ips', function (Blueprint $table) {
                 $table->id();
                 $table->string('ip')->unique();
                 $table->timestamps();
@@ -32,16 +32,16 @@ return new class extends Migration
             });
         }
 
-        if (! Schema::hasTable('error_ignoreds')) {
-            Schema::create('error_ignoreds', function (Blueprint $table) {
+        if (! Schema::hasTable('spam_guard_error_ignoreds')) {
+            Schema::create('spam_guard_error_ignoreds', function (Blueprint $table) {
                 $table->id();
                 $table->string('pattern');
                 $table->timestamps();
             });
         }
 
-        if (! Schema::hasTable('refused_contacts')) {
-            Schema::create('refused_contacts', function (Blueprint $table) {
+        if (! Schema::hasTable('spam_guard_refused_contacts')) {
+            Schema::create('spam_guard_refused_contacts', function (Blueprint $table) {
                 $table->id();
                 $table->string('form_name')->default('contact');
                 $table->string('mel')->nullable();
@@ -57,9 +57,9 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('refused_contacts');
-        Schema::dropIfExists('error_ignoreds');
+        Schema::dropIfExists('spam_guard_refused_contacts');
+        Schema::dropIfExists('spam_guard_error_ignoreds');
         Schema::dropIfExists('spam_guard_errors');
-        Schema::dropIfExists('banned_ips');
+        Schema::dropIfExists('spam_guard_banned_ips');
     }
 };
