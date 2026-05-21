@@ -47,8 +47,18 @@ class FormSpamGuard
             return true;
         }
 
+        $tel = $formData['tel'] ?? null;
+        if ($tel && $this->isInvalidPhone($tel)) {
+            $this->logRefusal($email, $ip, 'N/A', "Téléphone invalide : {$tel}", $formName);
+            return true;
+        }
+
         $msg = $formData['msg'] ?? null;
         if ($msg) {
+            if ($this->isGibberishMessage($msg)) {
+                $this->logRefusal($email, $ip, 'N/A', 'Message charabia (token sans espace) détecté', $formName);
+                return true;
+            }
             if ($this->isGenericBotMessage($msg)) {
                 $this->logRefusal($email, $ip, 'N/A', 'Message générique de bot détecté', $formName);
                 return true;
@@ -105,6 +115,10 @@ class FormSpamGuard
         $cfg  = config('spam-guard.gibberish', []);
         $name = trim($name);
 
+        if (preg_match('/\d/', $name)) {
+            return true;
+        }
+
         if (! str_contains($name, ' ') && strlen($name) > ($cfg['min_length_without_space'] ?? 12)) {
             $vowels    = preg_match_all('/[aeiouyàâäéèêëïîôùûü]/i', $name);
             $consonants = preg_match_all('/[bcdfghjklmnpqrstvwxz]/i', $name);
@@ -148,6 +162,28 @@ class FormSpamGuard
         }
 
         return false;
+    }
+
+    protected function isGibberishMessage(string $message): bool
+    {
+        $min = config('spam-guard.gibberish_message.min_length_without_space', 20);
+        return ! str_contains(trim($message), ' ') && strlen(trim($message)) >= $min;
+    }
+
+    protected function isInvalidPhone(string $phone): bool
+    {
+        $phone = trim($phone);
+        if (empty($phone)) {
+            return false;
+        }
+        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $phone) || preg_match('/^\d{2}\/\d{2}\/\d{4}$/', $phone)) {
+            return true;
+        }
+        if (preg_match('/[a-zA-Z]/', $phone)) {
+            return true;
+        }
+        $digits = preg_replace('/[^\d]/', '', $phone);
+        return strlen($digits) < 7 || strlen($digits) > 15;
     }
 
     protected function containsUrl(string $text): bool

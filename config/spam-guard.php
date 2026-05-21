@@ -135,4 +135,13 @@ return [
         'short_max_length'     => 60,
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Détection de message charabia (token sans espace)
+    |--------------------------------------------------------------------------
+    */
+    'gibberish_message' => [
+        'min_length_without_space' => 20,
+    ],
+
 ];
