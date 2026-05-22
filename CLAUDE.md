@@ -69,17 +69,55 @@ use Cotiga\SpamGuard\Exceptions\SpamGuardHandler;
 class Handler extends SpamGuardHandler { ... }
 ```
 
-**Contrôleurs avec formulaires** — injecter FormSpamGuard :
+**Contrôleurs avec formulaires** — injecter FormSpamGuard par constructeur :
 ```php
 use Cotiga\SpamGuard\Services\FormSpamGuard;
 
-public function store(Request $request, FormSpamGuard $guard)
+class MonController extends Controller
 {
-    if ($guard->isSpam($request->mel, $request->ip(), $request->only(['nom', 'tel', 'msg']))) {
-        return $this->fakeSuccessResponse($request);
+    public function __construct(private FormSpamGuard $guard) {}
+
+    public function store(MonFormRequest $request)
+    {
+        if ($this->guard->isSpam($request->mel, $request->ip(), $request->only(['nom', 'tel', 'msg']))) {
+            return $this->fakeSuccessResponse($request);
+        }
+
+        // traitement normal...
+
+        Session::flash('message', [
+            'bg' => 'bg-success',
+            'delai' => '9000',
+            'text' => '<h2>Merci '.ucfirst($request->nom).',</h2><p>Nous vous répondrons dès réception.</p>',
+        ]);
+        return redirect('/');
+    }
+
+    private function fakeSuccessResponse(MonFormRequest $request)
+    {
+        Session::flash('message', [
+            'bg' => 'bg-info',
+            'delai' => '7000',
+            'text' => '<h2>Merci '.ucfirst($request->nom).' !</h2>'
+                .'<p class="mb-0">Votre message a bien été pris en compte.</p>',
+        ]);
+        return redirect('/');
     }
 }
 ```
+
+- Message fake : `bg-info` (bleu) + formulation vague, sans promesse de réponse
+- Message réel : `bg-success` (vert) + formulation complète
+- IP : toujours `$request->ip()`, jamais `$_SERVER`
+
+## Erreurs fréquentes à ne pas reproduire
+
+| Erreur | Symptôme | Correct |
+|--------|----------|---------|
+| `use Cotiga\SpamGuard\SpamGuardHandler` | 500 sans log Laravel (fatal PHP au bootstrap) | `use Cotiga\SpamGuard\Exceptions\SpamGuardHandler` |
+| `$guard->check($request)` | Erreur "method not found" | `$guard->isSpam($email, $ip, $fields)` |
+| `$this->fakeSuccessResponse()` | Erreur "method not found" | Flash + redirect (voir exemple ci-dessus) |
+| `$_SERVER['HTTP_X_FORWARDED_FOR']` | Code fragile, non testé | `$request->ip()` |
 
 ## Règles importantes
 
