@@ -11,13 +11,13 @@ Package antispam et gestion des erreurs HTTP, réutilisable sur tous les sites L
 
 - **GitHub** : `https://github.com/cotiga/cotiga-spam-guard`
 - **Packagist** : `cotiga/spam-guard` — webhook GitHub configuré (auto-update au push)
-- **Branche** : `master`
+- **Branche** : `main`
 
 ## Workflow de développement
 
 1. Modifier les fichiers ici dans `/Users/boss/GIT/spam-guard/`
 2. Commiter et tagger (`v1.0.x`)
-3. Pusher : `git push origin master --tags`
+3. Pusher : `git push origin main --tags`
 4. Packagist se met à jour automatiquement
 5. Sur chaque site concerné : `composer update cotiga/spam-guard`
 
