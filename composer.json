@@ -1,6 +1,6 @@
 {
-    "name": "cotiga/spam-guard",
-    "description": "Antispam et gestion des erreurs HTTP pour applications Laravel (géoblocage, filtrage email, ban IP automatique).",
+    "name": "cotiga/spam-guard-lr10",
+    "description": "Antispam et gestion des erreurs HTTP pour applications Laravel 10/11/12 (admin STRAdmin/Voyager). Ligne legacy — pour le socle Core/Starter (Filament), voir cotiga/spam-guard-cs.",
     "type": "library",
     "license": "MIT",
     "authors": [

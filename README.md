@@ -1,6 +1,8 @@
-# cotiga/spam-guard
+# cotiga/spam-guard-lr10
 
 Package Laravel — antispam formulaires et gestion des erreurs HTTP.
+
+> **Ligne legacy** (Laravel 10/11/12, admin STRAdmin / fork Voyager). Pour le socle CotiCMS Core/Starter (Laravel 13 + Filament v5), utiliser [`cotiga/spam-guard-cs`](https://github.com/cotiga/spam-guard-cs).
 
 - Rate limiting par IP
 - Filtrage email : TLD, domaine, patterns suspects
@@ -13,7 +15,7 @@ Package Laravel — antispam formulaires et gestion des erreurs HTTP.
 ## Installation
 
 ```bash
-composer require cotiga/spam-guard
+composer require cotiga/spam-guard-lr10
 php artisan migrate
 ```
 

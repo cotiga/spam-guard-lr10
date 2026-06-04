@@ -1,25 +1,27 @@
-# cotiga/spam-guard — Package Laravel
+# cotiga/spam-guard-lr10 — Package Laravel (ligne legacy)
 
 ## Description
 
 Package antispam et gestion des erreurs HTTP, réutilisable sur tous les sites Laravel COTIGA.
+
+**Ligne legacy gelée** : Laravel 10/11/12, admin **STRAdmin** (fork Voyager, CRUD auto par table — d'où l'absence de classes d'admin dans le package). Pour le socle CotiCMS **Core/Starter** (Laravel 13 + Filament v5), c'est le package `cotiga/spam-guard-cs` qui prend le relais.
 
 - `SpamGuardHandler` : gestion erreurs HTTP (log, ban IP auto, alertes mail)
 - `FormSpamGuard` : antispam formulaires (rate limit, géoblocage, TLD, patterns, téléphone...)
 
 ## Repo et publication
 
-- **GitHub** : `https://github.com/cotiga/cotiga-spam-guard`
-- **Packagist** : `cotiga/spam-guard` — webhook GitHub configuré (auto-update au push)
+- **GitHub** : `https://github.com/cotiga/spam-guard-lr10`
+- **Packagist** : `cotiga/spam-guard-lr10` — webhook GitHub configuré (auto-update au push)
 - **Branche** : `main`
 
 ## Workflow de développement
 
-1. Modifier les fichiers ici dans `/Users/boss/GIT/spam-guard/`
+1. Modifier les fichiers ici dans `/Users/boss/GIT/spam-guard-lr10/`
 2. Commiter et tagger (`v1.0.x`)
 3. Pusher : `git push origin main --tags`
 4. Packagist se met à jour automatiquement
-5. Sur chaque site concerné : `composer update cotiga/spam-guard`
+5. Sur chaque site concerné : `composer update cotiga/spam-guard-lr10`
 
 ## Versioning
 
@@ -58,7 +60,7 @@ src/
 ## Installation sur un nouveau site
 
 ```bash
-composer require cotiga/spam-guard
+composer require cotiga/spam-guard-lr10
 php artisan migrate
 ```
 
